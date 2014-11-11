@@ -7,7 +7,7 @@ function HTMLActuator() {
   this.score = 0;
 }
 
-HTMLActuator.prototype.actuate = function (grid, metadata) {
+HTMLActuator.prototype.actuate = function (grid, metadata, callback) {
   var self = this;
 
   window.requestAnimationFrame(function () {
@@ -31,7 +31,9 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
         self.message(true); // You win!
       }
     }
-
+    if (callback) {
+      return callback();
+    }
   });
 };
 
@@ -104,20 +106,7 @@ HTMLActuator.prototype.positionClass = function (position) {
 };
 
 HTMLActuator.prototype.updateScore = function (score) {
-  this.clearContainer(this.scoreContainer);
-
-  var difference = score - this.score;
-  this.score = score;
-
-  this.scoreContainer.textContent = this.score;
-
-  if (difference > 0) {
-    var addition = document.createElement("div");
-    addition.classList.add("score-addition");
-    addition.textContent = "+" + difference;
-
-    this.scoreContainer.appendChild(addition);
-  }
+  this.scoreContainer.textContent = score;
 };
 
 HTMLActuator.prototype.updateBestScore = function (bestScore) {

@@ -12,6 +12,5 @@
     "boss": true,
     "expr": true,
     "loopfunc": true,
-    "white": true,
     "maxdepth": 4
 }
