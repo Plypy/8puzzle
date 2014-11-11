@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Plypy/8puzzle",
   "dependencies": {
-    "express": "^4.10.2"
+    "express": "^4.10.2",
+    "morgan": "^1.5.0"
   }
 }

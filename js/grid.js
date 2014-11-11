@@ -115,3 +115,19 @@ Grid.prototype.serialize = function () {
     cells: cellState
   };
 };
+
+Grid.prototype.toString = function() {
+  var ret = '';
+  var i, j;
+  for (i = 0; i < this.size; ++i) {
+    for (j = 0; j < this.size; ++j) {
+      var tile = this.cells[j][i];
+      var x = 0;
+      if (tile) {
+        x = tile.value;
+      }
+      ret = ret+x;
+    }
+  }
+  return ret;
+};

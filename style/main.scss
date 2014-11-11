@@ -461,11 +461,12 @@ hr {
   margin-bottom: 0;
 }
 
-.restart-button {
+.restart-button, .bite-button {
   @include button;
   display: block;
   text-align: center;
   float: right;
+  margin: 2px;
 }
 
 .game-explanation {

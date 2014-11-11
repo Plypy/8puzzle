@@ -7,6 +7,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager.on("move", this.move.bind(this, false));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
+  this.inputManager.on('cheat', this.cheat.bind(this));
 
   this.setup();
 }
@@ -214,3 +215,10 @@ GameManager.prototype.isWon = function () {
   return true;
 };
 
+GameManager.prototype.cheat = function () {
+  var state = this.grid.toString();
+  var obj = {state: state};
+  $.get('/ajax', obj, function (res) {
+    console.log(res);
+  });
+};
