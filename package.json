@@ -1,0 +1,22 @@
+{
+  "name": "8puzzle",
+  "version": "0.0.0",
+  "description": "8puzzle",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Plypy/8puzzle.git"
+  },
+  "author": "Ply_py",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Plypy/8puzzle/issues"
+  },
+  "homepage": "https://github.com/Plypy/8puzzle",
+  "dependencies": {
+    "express": "^4.10.2"
+  }
+}
