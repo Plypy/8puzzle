@@ -158,48 +158,65 @@ struct QNode {
 
 int bestf[MAXS];
 int pre[MAXS];
+char act[MAXS];
 bool outq[MAXS];
 State S, T;
 
 void walkback(int id) {
     if (pre[id]) {
         walkback(pre[id]);
-        puts("|");
-        puts("|");
-        puts("v");
+    } else {
+        return;
     }
-    output(getState(id));
+    putchar(act[id]);
 }
 
+int getCount(const State &s) {
+    int ret = 0;
+    for (int i = 0; i < MAXN; ++i) {
+        for (int j = i+1; j < MAXN; ++j) {
+            if (s.pos[i] > s.pos[j]) {
+                ++ret;
+            }
+        }
+    }
+    return ret;
+}
+
+bool check() {
+    return (getCount(S)-getCount(T))%2 == 0;
+}
+
+// char mov[4] = {'d','l','u','r'};
+char mov[4] = {'2', '3', '0', '1'};
 void work() {
     memset(bestf, -1, sizeof(bestf));
     memset(pre, 0, sizeof(pre));
     memset(outq, 0, sizeof(outq));
     updateSpace(S);
     updateSpace(T);
+    // if (!check()) {
+    //     puts("unsolvable");
+    //     return;
+    // }
 
     int Sid = getId(S);
     int Tid = getId(T);
     bestf[Sid] = 0;
     priority_queue<QNode> que;
     que.push(QNode(Sid, dist(S, T), 0));
-
-    int ans = -1;
-    while (true) {
+    bool flag = false;
+    while (que.size()) {
         QNode tnode = que.top();
         que.pop();
         int tid = tnode.sid;
-        // cout << "searching" << endl;
-        // cout << tnode.sid << endl;
-        // cout << tnode.dis << endl;
-        // output(getState(tnode.sid));
 
         if (outq[tid]) {
             continue;
         }
         outq[tid] = true;
         if (outq[Tid]) {
-            ans = tnode.dis;
+            flag = true;
             break;
         }
         State tstate = getState(tid);
@@ -214,35 +231,34 @@ void work() {
                 if (-1 == bestf[nid] || nf < bestf[nid]) {
                     bestf[nid] = nf;
                     pre[nid] = tid;
+                    act[nid] = mov[i];
                     que.push(QNode(nid, nf, ndis));
                 }
             }
         }
     }
-    if (-1 == ans) {
-        printf("This puzzle is unsolvable\n");
-    } else {
-        printf("It takes %d steps\n", ans);
+    if (flag) {
         walkback(Tid);
+        puts("");
+    } else {
+        puts("unsolvable");
     }
 }
 
 bool load() {
+    char str[20];
+    scanf("%s", str);
     for (int i = 0; i < MAXN; ++i) {
-        if (1 != scanf("%d", &S.pos[i])) {
-            return false;
-        }
+        S.pos[i] = str[i]-'0';
     }
     for (int i = 0; i < MAXN; ++i) {
-        if (1 != scanf("%d", &T.pos[i])) {
-            return false;
-        }
+        T.pos[i] = i+1;
     }
+    T.pos[8] = 0;
     return true;
 }
 
 int main() {
-    while (load()) {
-        work();
-    }
+    load();
+    work();
 }

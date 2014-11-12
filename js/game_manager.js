@@ -93,10 +93,13 @@ GameManager.prototype.addStartTiles = function () {
 };
 
 GameManager.prototype.execute = function(series, interval, callback) {
+  if (null == callback) {
+    callback = function () {};
+  }
   var self = this;
   async.timesSeries(series.length, function (n, next) {
     setTimeout(function () {
-      self.move(false, series[i], next);
+      self.move(false, series[n], next);
     }, interval);
   }, callback);
 };
@@ -216,9 +219,16 @@ GameManager.prototype.isWon = function () {
 };
 
 GameManager.prototype.cheat = function () {
+  var self = this;
   var state = this.grid.toString();
   var obj = {state: state};
   $.get('/ajax', obj, function (res) {
     console.log(res);
+    var series = [];
+    for (var i in res) {
+      series[i] = res.charCodeAt(i)-48;
+    }
+    console.log(series);
+    self.execute(series, 500);
   });
 };
