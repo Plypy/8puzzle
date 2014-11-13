@@ -223,6 +223,7 @@ GameManager.prototype.cheat = function () {
   var state = this.grid.toString();
   var obj = {state: state};
   $.get('/ajax', obj, function (res) {
+    res = res.trim();
     console.log(res);
     var series = [];
     for (var i in res) {
