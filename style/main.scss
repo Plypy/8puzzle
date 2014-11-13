@@ -332,32 +332,28 @@ hr {
   transition-property: transform;
 
   $base: 2;
-  $exponent: 1;
-  $limit: 11;
+  $val: 1;
+  $limit: 8;
 
   // Colors for all 11 states, false = no special color
-  $special-colors: false false, // 2
-                   false false, // 4
-                   #f78e48 true, // 8
-                   #fc5e2e true, // 16
-                   #ff3333 true, // 32
-                   #ff0000 true, // 64
-                   false true, // 128
-                   false true, // 256
-                   false true, // 512
-                   false true, // 1024
-                   false true; // 2048
+  $special-colors: false false, // 1
+                   false false, // 2
+                   #f78e48 true, // 3
+                   #fc5e2e true, // 4
+                   #ff3333 true, // 5
+                   #ff0000 true, // 6
+                   false true, // 7
+                   false true; // 8
 
   // Build tile colors
-  @while $exponent <= $limit {
-    $power: pow($base, $exponent);
+  @while $val <= $limit {
 
-    &.tile-#{$power} .tile-inner {
+    &.tile-#{$val} .tile-inner {
       // Calculate base background color
-      $gold-percent: ($exponent - 1) / ($limit - 1) * 100;
+      $gold-percent: ($val - 1) / ($limit - 1) * 100;
       $mixed-background: mix($tile-gold-color, $tile-color, $gold-percent);
 
-      $nth-color: nth($special-colors, $exponent);
+      $nth-color: nth($special-colors, $val);
 
       $special-background: nth($nth-color, 1);
       $bright-color: nth($nth-color, 2);
@@ -374,31 +370,16 @@ hr {
       background: $mixed-background;
 
       // Add glow
-      $glow-opacity: max($exponent - 4, 0) / ($limit - 4);
+      $glow-opacity: max($val - 4, 0) / ($limit - 4);
 
       @if not $special-background {
         box-shadow: 0 0 30px 10px rgba($tile-gold-glow-color, $glow-opacity / 1.8),
                     inset 0 0 0 1px rgba(white, $glow-opacity / 3);
       }
 
-      // Adjust font size for bigger numbers
-      @if $power >= 100 and $power < 1000 {
-        font-size: 45px;
-
-        // Media queries placed here to avoid carrying over the rest of the logic
-        @include smaller($mobile-threshold) {
-          font-size: 25px;
-        }
-      } @else if $power >= 1000 {
-        font-size: 35px;
-
-        @include smaller($mobile-threshold) {
-          font-size: 15px;
-        }
-      }
     }
 
-    $exponent: $exponent + 1;
+    $val: $val + 1;
   }
 
   // Super tiles (above 2048)
