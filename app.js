@@ -1,12 +1,15 @@
 var express = require('express');
 var morgan  = require('morgan');
+var path = require('path');
 var exec = require('child_process').exec;
 var app = express();
 
 app.use(morgan('tiny'));
 
 app.get('/ajax', function (req, res, next) {
-  var child = exec('bin/astar', function (err, stdout) {
+  var cmd = 'bin/astar';
+  cmd = path.normalize(cmd);
+  var child = exec(cmd, function (err, stdout) {
     if (err) {
       return next(err);
     }
